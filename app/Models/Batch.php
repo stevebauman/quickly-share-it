@@ -19,6 +19,7 @@ class Batch extends Model
      * @var array
      */
     protected $fillable = [
+        'locked',
         'session_id',
         'lifetime',
         'time',
@@ -29,21 +30,18 @@ class Batch extends Model
     /**
      * Locates a batch by its session ID, time and name.
      *
-     * @param string $sessionId
+     * @param string $session_id
      * @param int    $time
      * @param string $name
      *
      * @return Batch
      */
-    public function locate($sessionId, $time, $name)
+    public function locate($session_id, $time, $name)
     {
         return $this
             ->with(['files'])
-            ->where([
-                'session_id' => $sessionId,
-                'time' => $time,
-                'name' => $name,
-            ])->firstOrFail();
+            ->where(compact('session_id', 'time', 'name'))
+            ->firstOrFail();
     }
 
     /**

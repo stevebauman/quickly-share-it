@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\CreateBatch;
+use App\Jobs\CreateZip;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Session;
@@ -29,7 +30,7 @@ class BatchController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -97,9 +98,7 @@ class BatchController extends Controller
     {
         $batch = $this->batch->locate($sessionId, $time, $name);
 
-        $maxFileSize = env('APP_MAX_UPLOAD');
-
-        return view('pages.batch.show', compact('batch', 'maxFileSize'));
+        return view('pages.batch.show', compact('batch'));
     }
 
     /**
@@ -139,5 +138,23 @@ class BatchController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Zips all batch files and prompts the user to download it.
+     *
+     * @param string $sessionId
+     * @param int    $time
+     * @param string $name
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download($sessionId, $time, $name)
+    {
+        $batch = $this->batch->locate($sessionId, $time, $name);
+
+        $zip = $this->dispatch(new CreateZip($batch));
+
+        return response()->download($zip->getFilePath());
     }
 }

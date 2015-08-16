@@ -47,7 +47,7 @@ class UploadController extends Controller
             $name = uniqid(time()) . "." . $file->getClientOriginalExtension();
 
             // Get the storage path
-            $path = $batch->session_id . DIRECTORY_SEPARATOR . $name;
+            $path = $batch->session_id . DIRECTORY_SEPARATOR . $batch->name . DIRECTORY_SEPARATOR . $name;
 
             // Move the file into storage
             Storage::put(

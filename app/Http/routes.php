@@ -33,7 +33,13 @@ $router->get('{session_id}-{time}-{name}', [
     'uses' => 'BatchController@show',
 ]);
 
+$router->get('{session_id}-{time}-{name}/{upload}-{file_name}', [
+    'as' => 'batch.file.show',
+    'uses' => 'BatchFileController@show',
+]);
+
 $router->post('upload/{session_id}-{time}-{name}', [
     'as' => 'upload.perform',
     'uses' => 'UploadController@perform',
 ]);
+

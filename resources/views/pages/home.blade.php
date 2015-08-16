@@ -16,7 +16,7 @@
                 Quickly Share It is also completely <a href="https://github.com/stevebauman/quickly-share-it">open source</a>.
             </p>
             <p class="text-center">
-                <a class="btn btn-primary btn-lg" href="{{ route('batch.create') }}" role="button"><i class="fa fa-upload"></i> Start Uploading </a>
+                <a class="btn btn-primary btn-lg" href="{{ route('batch.quick') }}" role="button"><i class="fa fa-upload"></i> Start Uploading </a>
             </p>
         </div>
     </div>
