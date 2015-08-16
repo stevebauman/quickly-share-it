@@ -5,7 +5,7 @@
     <div class="jumbotron">
         <div class="container">
             <h2>
-                Upload and Share Files, effortlessly.
+                Upload and Share Files, effortlessly. No registration, no hassles.
             </h2>
             <p>
                 Looking for a completely anonymous and quick way of sharing files? You've found it.

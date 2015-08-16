@@ -8,7 +8,20 @@
 
     <hr>
 
-    <div class="col-md-6">
+    <div class="col-md-12">
+        {!!
+           Form::open([
+                'id' => 'quickly',
+               'url' => route('upload.perform', [$batch->session_id, $batch->time, $batch->name]),
+               'class' => 'dropzone',
+               'files' => true,
+           ])
+       !!}
+
+        {!! Form::close() !!}
+    </div>
+
+    <div class="col-md-12">
         {{ $batch->description }}
 
         <h4>Current Files:</h4>
@@ -32,27 +45,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($batch->files as $file)
+                @if($batch->files->count() > 0)
+                    @foreach($batch->files as $file)
+                        <tr>
+                            <td><a href="">{{ $file->name }}</a></td>
+                            <td>{{ $file->created_at }}</td>
+                        </tr>
+                    @endforeach
+                @else
                     <tr>
-                        <td><a href="">{{ $file->name }}</a></td>
-                        <td>{{ $file->created_at }}</td>
+                        <td colspan="2">No Files Uploaded Yet</td>
                     </tr>
-                @endforeach
+                @endif
             </tbody>
         </table>
-    </div>
-
-    <div class="col-md-6">
-        {!!
-               Form::open([
-                    'id' => 'quickly',
-                   'url' => route('upload.perform', [$batch->session_id, $batch->time, $batch->name]),
-                   'class' => 'dropzone',
-                   'files' => true,
-               ])
-           !!}
-
-        {!! Form::close() !!}
     </div>
 
 @stop
@@ -66,7 +72,8 @@
                 });
             },
             maxFilesize: 500,
-            addRemoveLinks: true
+            addRemoveLinks: true,
+            dictDefaultMessage: "Click or Drop Files Here to Upload"
         };
     </script>
 @stop
