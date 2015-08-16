@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Batch;
+use App\Models\Upload;
 use Chumper\Zipper\Zipper;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -23,6 +24,13 @@ class CreateZip extends Job implements SelfHandling
     protected $zipper;
 
     /**
+     * The zip file extension.
+     *
+     * @var string
+     */
+    private $extension = '.zip';
+
+    /**
      * Constructor.
      *
      * @param Batch  $batch
@@ -34,21 +42,43 @@ class CreateZip extends Job implements SelfHandling
     }
 
     /**
-     * Creats a new zip file.
+     * Creates a new zip file and returns the complete file path.
      *
-     * @return Zipper
+     * @return string
      */
     public function handle()
     {
-        $name = (isset($this->batch->name) ? $this->batch->name : $this->generateUniqueName());;
+        $fileName = $this->generateFileName($this->batch->name);
 
-        $zip = $this->zipper->make($name);
+        $zip = $this->zipper->make($fileName);
 
         foreach($this->batch->files as $file) {
-            $zip->add($file->path);
+            if($file instanceof Upload) {
+                $zip->add($file->getCompletePath());
+            }
         }
 
-        return $zip;
+        $path = $zip->getFilePath();
+
+        $zip->close();
+
+        return $path;
+    }
+
+    /**
+     * @param null $name
+     *
+     * @return string
+     */
+    private function generateFileName($name = null)
+    {
+        if(!isset($name) || empty($name)) {
+            $name = $this->generateUniqueName();
+        }
+
+        $path = $this->batch->session_id . DIRECTORY_SEPARATOR . $this->batch->name . DIRECTORY_SEPARATOR;
+
+        return storage_path('app' . DIRECTORY_SEPARATOR .  $path. $name . $this->extension);
     }
 
     /**

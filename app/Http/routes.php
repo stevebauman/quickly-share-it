@@ -16,6 +16,7 @@ $router->get('/', [
     'uses' => 'HomeController@index',
 ]);
 
+// The batch resource
 $router->resource('batch', 'BatchController', [
     'only' => [
         'create',
@@ -23,16 +24,31 @@ $router->resource('batch', 'BatchController', [
     ],
 ]);
 
+// Quick Create batch
 $router->get('quick-create', [
     'as' => 'batch.quick',
     'uses' => 'BatchController@quick',
 ]);
 
+// Display batch
 $router->get('{session_id}-{time}-{name}', [
     'as' => 'batch.show',
     'uses' => 'BatchController@show',
 ]);
 
+// Edit Batch
+$router->get('{session_id}-{time}-{name}/edit', [
+    'as' => 'batch.edit',
+    'uses' => 'BatchController@edit',
+]);
+
+// Download all files in a batch
+$router->get('{session_id}-{time}-{name}/download', [
+    'as' => 'batch.download',
+    'uses' => 'BatchController@download',
+]);
+
+// Display a file in a batch
 $router->get('{session_id}-{time}-{name}/{upload}-{file_name}', [
     'as' => 'batch.file.show',
     'uses' => 'BatchFileController@show',

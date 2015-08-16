@@ -13,6 +13,17 @@
 
         <h4>Current Files:</h4>
 
+        <div class="btn-group" role="group">
+            <a href="{{ route('batch.edit', [$batch->session_id, $batch->time, $batch->name]) }}" class="btn btn-default">
+                <i class="fa fa-edit"></i>
+                Edit Details
+            </a>
+            <a href="{{ route('batch.download', [$batch->session_id, $batch->time, $batch->name]) }}" class="btn btn-default">
+                <i class="fa fa-download"></i>
+                Download All (.Zip)
+            </a>
+        </div>
+
         <table class="table table-hover">
             <thead>
                 <tr>

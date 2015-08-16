@@ -155,6 +155,6 @@ class BatchController extends Controller
 
         $zip = $this->dispatch(new CreateZip($batch));
 
-        return response()->download($zip->getFilePath());
+        return response()->download($zip);
     }
 }
