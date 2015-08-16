@@ -22,7 +22,6 @@
 
 </div>
 
-
 <div class="form-group {{ $errors->first('name', 'has-error') }}">
     {!! Form::label('Name') !!}
 

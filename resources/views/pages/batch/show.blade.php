@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <h2>{{ $batch->name }}</h2>
+    <h2>Batch ID: {{ $batch->name }}</h2>
 
     <hr>
 
@@ -34,6 +34,7 @@
     <div class="col-md-6">
         {!!
                Form::open([
+                    'id' => 'quickly',
                    'url' => route('upload.perform', [$batch->session_id, $batch->time, $batch->name]),
                    'class' => 'dropzone',
                    'files' => true,
@@ -43,4 +44,18 @@
         {!! Form::close() !!}
     </div>
 
+@stop
+
+@section('scripts.bottom')
+    <script type="text/javascript">
+        Dropzone.options.quickly = {
+            init: function () {
+                this.on('queuecomplete', function () {
+                    location.reload();
+                });
+            },
+            maxFilesize: 500,
+            addRemoveLinks: true
+        };
+    </script>
 @stop

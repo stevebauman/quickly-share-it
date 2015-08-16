@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CreateBatch;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Session;
@@ -36,9 +37,27 @@ class BatchController extends Controller
     }
 
     /**
+     * Generates a quick unique batch and redirects the user to the batch.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function quick()
+    {
+        $batch = $this->dispatch(new CreateBatch());
+
+        if($batch instanceof Batch) {
+            return redirect()->route('batch.show', [$batch->session_id, $batch->time, $batch->name]);
+        }
+
+        flash()->error("Whoops!", "Looks like were having issues creating a batch! Try again later!");
+
+        return redirect()->route('home.index');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -50,19 +69,13 @@ class BatchController extends Controller
      *
      * @param  BatchRequest  $request
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(BatchRequest $request)
     {
-        $batch = $this->batch->newInstance();
+        $batch = $this->dispatch(new CreateBatch($request->name, $request->description, $request->lifetime));
 
-        $batch->session_id = Session::getId();
-        $batch->time = time();
-        $batch->lifetime = $request->input('lifetime');
-        $batch->description = $request->input('description');
-        $batch->name = $request->input('name');
-
-        if($batch->save()) {
+        if($batch instanceof Batch) {
             flash()->success('Success!', 'Created batch. Start adding files!');
 
             return redirect()->route('batch.show', [$batch->session_id, $batch->time, $batch->name]);
@@ -74,25 +87,31 @@ class BatchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  $sessionId $id
+     * @param string $sessionId
+     * @param int    $time
+     * @param string $name
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function show($sessionId, $time, $name)
     {
         $batch = $this->batch->locate($sessionId, $time, $name);
 
-        return view('pages.batch.show', compact('batch'));
+        $maxFileSize = env('APP_MAX_UPLOAD');
+
+        return view('pages.batch.show', compact('batch', 'maxFileSize'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Displays the form for editing the specified batch.
      *
-     * @param  int  $id
+     * @param string $sessionId
+     * @param int    $time
+     * @param string $name
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit($sessionId, $time, $name)
     {
         //
     }
@@ -103,7 +122,7 @@ class BatchController extends Controller
      * @param  Request  $request
      * @param  int  $id
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -115,7 +134,7 @@ class BatchController extends Controller
      *
      * @param  int  $id
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {

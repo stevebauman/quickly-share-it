@@ -23,6 +23,11 @@ $router->resource('batch', 'BatchController', [
     ],
 ]);
 
+$router->get('quick-create', [
+    'as' => 'batch.quick',
+    'uses' => 'BatchController@quick',
+]);
+
 $router->get('{session_id}-{time}-{name}', [
     'as' => 'batch.show',
     'uses' => 'BatchController@show',
