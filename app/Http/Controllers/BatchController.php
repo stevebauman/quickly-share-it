@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CreateBatch;
 use App\Jobs\CreateZip;
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Session;
 use App\Models\Batch;
 use App\Http\Requests\BatchRequest;
 
@@ -118,12 +115,12 @@ class BatchController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  BatchRequest  $request
+     * @param  int           $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(BatchRequest $request, $id)
     {
         //
     }
