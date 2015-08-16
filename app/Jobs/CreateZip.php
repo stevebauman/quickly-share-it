@@ -48,21 +48,25 @@ class CreateZip extends Job implements SelfHandling
      */
     public function handle()
     {
-        $fileName = $this->generateFileName($this->batch->name);
+        if($this->batch->files->count() > 0) {
+            $fileName = $this->generateFileName($this->batch->name);
 
-        $zip = $this->zipper->make($fileName);
+            $zip = $this->zipper->make($fileName);
 
-        foreach($this->batch->files as $file) {
-            if($file instanceof Upload) {
-                $zip->add($file->getCompletePath());
+            foreach($this->batch->files as $file) {
+                if($file instanceof Upload) {
+                    $zip->add($file->getCompletePath());
+                }
             }
+
+            $path = $zip->getFilePath();
+
+            $zip->close();
+
+            return $path;
         }
 
-        $path = $zip->getFilePath();
-
-        $zip->close();
-
-        return $path;
+        return false;
     }
 
     /**

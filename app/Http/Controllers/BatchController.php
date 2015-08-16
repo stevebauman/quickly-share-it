@@ -150,8 +150,20 @@ class BatchController extends Controller
     {
         $batch = $this->batch->locate($sessionId, $time, $name);
 
-        $zip = $this->dispatch(new CreateZip($batch));
+        if($batch->files->count() > 0) {
+            $zip = $this->dispatch(new CreateZip($batch));
 
-        return response()->download($zip);
+            if($zip && is_string($zip)) {
+                return response()->download($zip);
+            } else {
+                flash()->error('Whoops!', 'Looks like we had an issue generating a ZIP.');
+
+                return redirect()->back();
+            }
+        } else {
+            flash()->error('Whoops!', 'There are no files to download.');
+
+            return redirect()->back();
+        }
     }
 }
