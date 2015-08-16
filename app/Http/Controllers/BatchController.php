@@ -59,6 +59,7 @@ class BatchController extends Controller
         $batch->session_id = Session::getId();
         $batch->time = time();
         $batch->lifetime = $request->input('lifetime');
+        $batch->description = $request->input('description');
         $batch->name = $request->input('name');
 
         if($batch->save()) {

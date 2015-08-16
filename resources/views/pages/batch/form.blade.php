@@ -44,3 +44,4 @@
         Form::submit('Create', ['class' => 'btn btn-primary'])
     !!}
 </div>
+
