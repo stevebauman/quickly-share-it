@@ -23,7 +23,7 @@ class CreateBatchesTable extends Migration
             $table->string('name', 40);
             $table->text('description')->nullable();
 
-            $table->unique(['session_id', 'time']);
+            $table->unique(['session_id', 'time', 'name']);
         });
     }
 
