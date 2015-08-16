@@ -42,6 +42,12 @@ class UploadController extends Controller
 
         // Double check the file instance
         if($file instanceof UploadedFile) {
+
+            // Validate file name length
+            if(strlen($file->getClientOriginalName()) > 40) {
+                abort(422, 'File name is too large');
+            }
+
             // Generate a file name by the current time
             // and a unique ID with its extension
             $name = uniqid(time()) . "." . $file->getClientOriginalExtension();
