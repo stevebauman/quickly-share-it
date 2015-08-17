@@ -1,10 +1,10 @@
 @extends('layouts.master')
 
-@section('title', 'Viewing Batch')
+@section('title', 'Upload Files')
 
 @section('content')
 
-    <h2>Batch ID: {{ $batch->name }}</h2>
+    <h2>Upload Files</h2>
 
     <hr>
 
@@ -21,16 +21,19 @@
         {!! Form::close() !!}
     </div>
 
+    <h2>Current Files:</h2>
+
+    <hr>
+
     <div class="col-md-12">
         {{ $batch->description }}
-
-        <h4>Current Files:</h4>
 
         <div class="btn-group" role="group">
             <a href="{{ route('batch.edit', [$batch->session_id, $batch->time, $batch->name]) }}" class="btn btn-default">
                 <i class="fa fa-edit"></i>
                 Edit Details
             </a>
+            <a href="" class="btn btn-default"><i class="fa fa-lock"></i> Lock Folder</a>
             <a href="{{ route('batch.download', [$batch->session_id, $batch->time, $batch->name]) }}" class="btn btn-default">
                 <i class="fa fa-download"></i>
                 Download All (.Zip)

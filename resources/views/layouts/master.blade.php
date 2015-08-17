@@ -14,7 +14,7 @@
 
         <title>@yield('title')</title>
 
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 
         @yield('scripts.top')
 
@@ -52,6 +52,7 @@
             </div>
 
         </nav>
+
 
         <div class="container">
 

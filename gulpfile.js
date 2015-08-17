@@ -21,14 +21,17 @@ dir = {
 };
 
 elixir(function(mix) {
-
-    mix.sass('app.scss', null, {
-        includePaths: [dir.vendor]
-    }).scripts([
+    mix.scripts([
         'libs/jquery.min.js',
         'libs/bootstrap.min.js',
         'libs/dropzone.min.js',
         'libs/sweetalert.min.js',
         'app.js'
+    ]).styles([
+        'libs/bootstrap.min.css',
+        'libs/dropzone.css',
+        'libs/font-awesome.min.css',
+        'libs/sweetalert.css',
+        'app.css'
     ]);
 });

@@ -3,12 +3,13 @@
 @section('content')
 
     <div class="jumbotron">
+
         <div class="container">
             <h2>
-                Upload and Share Files, effortlessly. No registration, no hassles.
+                Upload and Share Files, Effortlessly.
             </h2>
             <p>
-                Looking for a completely anonymous and quick way of sharing files? You've found it.
+                Anonymous, no sign up, and completely free.
             </p>
             <p class="text-muted">
                 No seriously, we don't even use any visitor analytic tracking (such as Google Analytics).
@@ -19,6 +20,7 @@
                 <a class="btn btn-primary btn-lg" href="{{ route('batch.quick') }}" role="button"><i class="fa fa-upload"></i> Start Uploading </a>
             </p>
         </div>
+
     </div>
 
 @stop
