@@ -17,6 +17,8 @@ class CreateUploadsTable extends Migration
             $table->timestamps();
 
             $table->string('name');
+            $table->string('type');
+            $table->integer('size')->nullable();
             $table->string('path');
         });
     }

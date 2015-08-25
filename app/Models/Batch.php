@@ -45,19 +45,30 @@ class Batch extends Model
     }
 
     /**
-     * Creates a new file attached to the current batch.
+     * Finds a batch file by the specified ID.
      *
-     * @param string $path
-     * @param string $name
+     * @param int $fileId
      *
      * @return Upload
      */
-    public function addFile($path, $name)
+    public function findFile($fileId)
     {
-        return $this->files()->create([
-            'path' => $path,
-            'name' => $name,
-        ]);
+        return $this->files()->findOrFail($fileId);
+    }
+
+    /**
+     * Creates a new file attached to the current batch.
+     *
+     * @param string $name
+     * @param string $type
+     * @param int    $size
+     * @param string $path
+     *
+     * @return Upload
+     */
+    public function addFile($name, $type, $size, $path)
+    {
+        return $this->files()->create(compact('name', 'type', 'path', 'size'));
     }
 
     /**

@@ -2,12 +2,8 @@
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Quickly Share It Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
 |
 */
 
@@ -30,32 +26,46 @@ $router->get('quick-create', [
     'uses' => 'BatchController@quick',
 ]);
 
-// Display batch
-$router->get('{session_id}-{time}-{name}', [
-    'as' => 'batch.show',
-    'uses' => 'BatchController@show',
-]);
+// Batch routes
+$router->group(['prefix' => '{session_id}-{time}-{name}', 'as' => 'batch.'], function($router)
+{
+    // Display batch
+    $router->get('/', [
+        'as' => 'show',
+        'uses' => 'BatchController@show',
+    ]);
 
-// Edit Batch
-$router->get('{session_id}-{time}-{name}/edit', [
-    'as' => 'batch.edit',
-    'uses' => 'BatchController@edit',
-]);
+    // Edit Batch
+    $router->get('edit', [
+        'as' => 'edit',
+        'uses' => 'BatchController@edit',
+    ]);
 
-// Download all files in a batch
-$router->get('{session_id}-{time}-{name}/download', [
-    'as' => 'batch.download',
-    'uses' => 'BatchController@download',
-]);
+    // Download all files in a batch
+    $router->get('download', [
+        'as' => 'download',
+        'uses' => 'BatchController@download',
+    ]);
 
-// Display a file in a batch
-$router->get('{session_id}-{time}-{name}/{upload}-{file_name}', [
-    'as' => 'batch.file.show',
-    'uses' => 'BatchFileController@show',
-]);
+    // Perform a batch lock
+    $router->post('lock', [
+        'as' => 'lock',
+        'uses' => 'BatchLockController@perform'
+    ]);
 
-$router->post('upload/{session_id}-{time}-{name}', [
-    'as' => 'upload.perform',
-    'uses' => 'UploadController@perform',
-]);
+    // Perform a batch upload
+    $router->post('upload', [
+        'as' => 'upload.perform',
+        'uses' => 'UploadController@perform',
+    ]);
 
+    // Batch File Routes
+    $router->group(['prefix' => 'files', 'as' => 'files.'], function ($router)
+    {
+        // Display a file in a batch
+        $router->get('{file}', [
+            'as' => 'show',
+            'uses' => 'BatchFileController@show',
+        ]);
+    });
+});

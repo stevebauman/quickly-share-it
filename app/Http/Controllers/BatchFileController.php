@@ -3,22 +3,43 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Batch;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
 class BatchFileController extends Controller
 {
     /**
-     * Display the specified resource.
+     * @var Batch
+     */
+    protected $batch;
+
+    /**
+     * Constructor.
      *
-     * @param  int  $id
+     * @param Batch $batch
+     */
+    public function __construct(Batch $batch)
+    {
+        $this->batch = $batch;
+    }
+
+    /**
+     * Displays the specified batch file.
+     *
+     * @param int    $sessionId
+     * @param int    $time
+     * @param string $name
+     * @param int    $fileId
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show($sessionId, $time, $name, $fileId)
     {
-        //
+        $batch = $this->batch->locate($sessionId, $time, $name);
+
+        $file = $batch->findFile($fileId);
+
+        return view('pages.batch.files.show', compact('batch', 'file'));
     }
 
     /**

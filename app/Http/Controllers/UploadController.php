@@ -62,7 +62,7 @@ class UploadController extends Controller
             );
 
             // Add the file to the batch
-            $batch->addFile($path, $file->getClientOriginalName());
+            $batch->addFile($file->getClientOriginalName(), $file->getClientMimeType(), $file->getClientSize(), $path);
         } else {
             abort(404);
         }
