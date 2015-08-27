@@ -22,38 +22,36 @@ class Batch extends Model
         'locked',
         'session_id',
         'lifetime',
-        'time',
+        'uuid',
         'name',
         'description',
     ];
 
     /**
-     * Locates a batch by its session ID, time and name.
+     * Locates a batch by its UUID.
      *
-     * @param string $session_id
-     * @param int    $time
-     * @param string $name
+     * @param string $uuid
      *
      * @return Batch
      */
-    public function locate($session_id, $time, $name)
+    public function locate($uuid)
     {
         return $this
             ->with(['files'])
-            ->where(compact('session_id', 'time', 'name'))
+            ->where(compact('uuid'))
             ->firstOrFail();
     }
 
     /**
-     * Finds a batch file by the specified ID.
+     * Finds a batch file by the specified UUID.
      *
-     * @param int $fileId
+     * @param int $uuid
      *
      * @return Upload
      */
-    public function findFile($fileId)
+    public function findFile($uuid)
     {
-        return $this->files()->findOrFail($fileId);
+        return $this->files()->where(compact('uuid'))->firstOrFail();
     }
 
     /**
@@ -68,7 +66,9 @@ class Batch extends Model
      */
     public function addFile($name, $type, $size, $path)
     {
-        return $this->files()->create(compact('name', 'type', 'path', 'size'));
+        $uuid = uuid();
+
+        return $this->files()->create(compact('uuid', 'name', 'type', 'path', 'size'));
     }
 
     /**

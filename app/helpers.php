@@ -1,5 +1,7 @@
 <?php
 
+use Rhumsaa\Uuid\Uuid;
+
 /**
  * Generates a session flash message
  *
@@ -17,4 +19,14 @@ function flash($title = null, $message = null)
     }
 
     $flash->info($title, $message);
+}
+
+/**
+ * Generates a unique UUID string.
+ *
+ * @return string
+ */
+function uuid()
+{
+    return Uuid::uuid3(Uuid::NAMESPACE_DNS, str_random())->toString();
 }

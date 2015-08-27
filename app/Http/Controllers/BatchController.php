@@ -44,7 +44,7 @@ class BatchController extends Controller
         $batch = $this->dispatch(new CreateBatch());
 
         if($batch instanceof Batch) {
-            return redirect()->route('batch.show', [$batch->session_id, $batch->time, $batch->name]);
+            return redirect()->route('batch.show', [$batch->uuid]);
         }
 
         flash()->error("Whoops!", "Looks like were having issues creating a batch! Try again later!");
@@ -74,9 +74,9 @@ class BatchController extends Controller
         $batch = $this->dispatch(new CreateBatch($request->name, $request->description, $request->lifetime));
 
         if($batch instanceof Batch) {
-            flash()->success('Success!', 'Created batch. Start adding files!');
+            flash()->success('Success!', 'Created folder. Start adding files!');
 
-            return redirect()->route('batch.show', [$batch->session_id, $batch->time, $batch->name]);
+            return redirect()->route('batch.show', [$batch->uuid]);
         } else {
             return redirect()->back();
         }
@@ -85,15 +85,13 @@ class BatchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param string $sessionId
-     * @param int    $time
-     * @param string $name
+     * @param string $uuid
      *
      * @return \Illuminate\View\View
      */
-    public function show($sessionId, $time, $name)
+    public function show($uuid)
     {
-        $batch = $this->batch->locate($sessionId, $time, $name);
+        $batch = $this->batch->locate($uuid);
 
         return view('pages.batch.show', compact('batch'));
     }
@@ -101,13 +99,11 @@ class BatchController extends Controller
     /**
      * Displays the form for editing the specified batch.
      *
-     * @param string $sessionId
-     * @param int    $time
-     * @param string $name
+     * @param string $uuid
      *
      * @return \Illuminate\View\View
      */
-    public function edit($sessionId, $time, $name)
+    public function edit($uuid)
     {
         //
     }
@@ -140,15 +136,13 @@ class BatchController extends Controller
     /**
      * Zips all batch files and prompts the user to download it.
      *
-     * @param string $sessionId
-     * @param int    $time
-     * @param string $name
+     * @param string $uuid
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download($sessionId, $time, $name)
+    public function download($uuid)
     {
-        $batch = $this->batch->locate($sessionId, $time, $name);
+        $batch = $this->batch->locate($uuid);
 
         if($batch->files->count() > 0) {
             $zip = $this->dispatch(new CreateZip($batch));

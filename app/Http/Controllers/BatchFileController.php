@@ -26,45 +26,18 @@ class BatchFileController extends Controller
     /**
      * Displays the specified batch file.
      *
-     * @param int    $sessionId
-     * @param int    $time
-     * @param string $name
-     * @param int    $fileId
+     * @param int    $batchUuid
+     * @param int    $fileUuid
      *
      * @return \Illuminate\View\View
      */
-    public function show($sessionId, $time, $name, $fileId)
+    public function show($batchUuid, $fileUuid)
     {
-        $batch = $this->batch->locate($sessionId, $time, $name);
+        $batch = $this->batch->locate($batchUuid);
 
-        $file = $batch->findFile($fileId);
+        $file = $batch->findFile($fileUuid);
 
         return view('pages.batch.files.show', compact('batch', 'file'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -77,5 +50,22 @@ class BatchFileController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Prompts the user to download the specified batch file.
+     *
+     * @param string $batchUuid
+     * @param string $fileUuid
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download($batchUuid, $fileUuid)
+    {
+        $batch = $this->batch->locate($batchUuid);
+
+        $file = $batch->findFile($fileUuid);
+
+        return response()->download($file->getCompletePath(), $file->name);
     }
 }

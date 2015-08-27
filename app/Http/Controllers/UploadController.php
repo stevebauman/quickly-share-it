@@ -28,14 +28,12 @@ class UploadController extends Controller
      * Uploads files to the specified batch.
      *
      * @param UploadRequest $request
-     * @param string $sessionId
-     * @param string $time
-     * @param string $name
+     * @param string $uuid
      */
-    public function perform(UploadRequest $request, $sessionId, $time, $name)
+    public function perform(UploadRequest $request, $uuid)
     {
         // Locate the batch
-        $batch = $this->batch->locate($sessionId, $time, $name);
+        $batch = $this->batch->locate($uuid);
 
         // Retrieve the file from the request
         $file = $request->file('file');
@@ -48,12 +46,11 @@ class UploadController extends Controller
                 abort(422, 'File name is too large');
             }
 
-            // Generate a file name by the current time
-            // and a unique ID with its extension
-            $name = uniqid(time()) . "." . $file->getClientOriginalExtension();
+            // Generate a file name with UUID and its extension
+            $name = uuid() . "." . $file->getClientOriginalExtension();
 
             // Get the storage path
-            $path = $batch->session_id . DIRECTORY_SEPARATOR . $batch->name . DIRECTORY_SEPARATOR . $name;
+            $path = $batch->uuid . DIRECTORY_SEPARATOR . $name;
 
             // Move the file into storage
             Storage::put(

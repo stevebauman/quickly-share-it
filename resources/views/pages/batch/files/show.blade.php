@@ -22,7 +22,7 @@
 
         <div class="btn-group" role="group">
 
-            <a class="btn btn-primary btn-lg" href="#">
+            <a class="btn btn-primary btn-lg" href="{{ route('batch.files.download', [$batch->uuid, $file->uuid]) }}">
                 <i class="fa fa-download"></i>
                 Download
             </a>
@@ -37,13 +37,7 @@
                 <ul class="dropdown-menu">
 
                     <li>
-                        <a href="#">
-                            <i class="fa fa-edit"></i>
-                            Edit
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
+                        <a href="{{ route('batch.files.destroy', [$batch->uuid, $file->uuid]) }}">
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>

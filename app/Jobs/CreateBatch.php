@@ -54,7 +54,7 @@ class CreateBatch extends Job implements SelfHandling
 
         $batch->locked = false;
         $batch->session_id = Session::getId();
-        $batch->time = time();
+        $batch->uuid = uuid();
         $batch->lifetime = $this->lifetime;
         $batch->description = $this->description;
         $batch->name = $this->name;

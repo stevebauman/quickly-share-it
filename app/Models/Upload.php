@@ -19,6 +19,7 @@ class Upload extends Model
      * @var array
      */
     protected $fillable = [
+        'uuid',
         'name',
         'type',
         'size',

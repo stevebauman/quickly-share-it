@@ -12,7 +12,7 @@
         {!!
            Form::open([
                 'id' => 'quickly',
-               'url' => route('batch.upload.perform', [$batch->session_id, $batch->time, $batch->name]),
+               'url' => route('batch.upload.perform', [$batch->uuid]),
                'class' => 'dropzone',
                'files' => true,
            ])
@@ -30,7 +30,7 @@
         <div class="col-md-12">
 
             <div class="btn-group" role="group">
-                <a href="{{ route('batch.edit', [$batch->session_id, $batch->time, $batch->name]) }}" class="btn btn-default">
+                <a href="{{ route('batch.edit', [$batch->uuid]) }}" class="btn btn-default">
                     <i class="fa fa-edit"></i>
                     Edit
                     <span class="hidden-xs">Details</span>
@@ -72,7 +72,7 @@
                         <div class="panel panel-default text-center">
 
                             <div class="panel-heading">
-                                <a href="{{ route('batch.files.show', [$batch->session_id, $batch->time, $batch->name, $file->id]) }}">{{ $file->name }}</a>
+                                <a href="{{ route('batch.files.show', [$batch->uuid, $file->uuid]) }}">{{ $file->name }}</a>
                             </div>
 
                             <div class="panel-body">

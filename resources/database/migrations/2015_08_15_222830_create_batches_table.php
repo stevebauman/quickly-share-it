@@ -20,11 +20,11 @@ class CreateBatchesTable extends Migration
             $table->string('session_id');
             $table->string('password')->nullable();
             $table->integer('lifetime');
-            $table->integer('time');
+            $table->string('uuid');
             $table->string('name', 40);
             $table->text('description')->nullable();
 
-            $table->unique(['session_id', 'time', 'name']);
+            $table->unique(['uuid']);
         });
     }
 

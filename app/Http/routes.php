@@ -27,7 +27,7 @@ $router->get('quick-create', [
 ]);
 
 // Batch routes
-$router->group(['prefix' => '{session_id}-{time}-{name}', 'as' => 'batch.'], function($router)
+$router->group(['prefix' => '{batch_uuid}', 'as' => 'batch.'], function($router)
 {
     // Display batch
     $router->get('/', [
@@ -62,10 +62,25 @@ $router->group(['prefix' => '{session_id}-{time}-{name}', 'as' => 'batch.'], fun
     // Batch File Routes
     $router->group(['prefix' => 'files', 'as' => 'files.'], function ($router)
     {
-        // Display a file in a batch
-        $router->get('{file}', [
-            'as' => 'show',
-            'uses' => 'BatchFileController@show',
-        ]);
+        $router->group(['prefix' => '{file_uuid}'], function($router)
+        {
+            // Display a file in a batch
+            $router->get('/', [
+                'as' => 'show',
+                'uses' => 'BatchFileController@show',
+            ]);
+
+            // Deletes a batch file
+            $router->delete('/', [
+                'as' => 'destroy',
+                'uses' => 'BatchFileController@destroy',
+            ]);
+
+            // Download the specified file
+            $router->get('download', [
+                'as' => 'download',
+                'uses' => 'BatchFileController@download',
+            ]);
+        });
     });
 });
