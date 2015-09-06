@@ -112,11 +112,11 @@ class BatchController extends Controller
      * Update the specified resource in storage.
      *
      * @param  BatchRequest  $request
-     * @param  int           $id
+     * @param  string        $uuid
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(BatchRequest $request, $id)
+    public function update(BatchRequest $request, $uuid)
     {
         //
     }
@@ -124,11 +124,11 @@ class BatchController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param string $uuid
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
         //
     }
