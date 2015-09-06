@@ -35,6 +35,12 @@ $router->group(['prefix' => '{batch_uuid}', 'as' => 'batch.'], function($router)
         'uses' => 'BatchController@show',
     ]);
 
+    // Display the login for the batch
+    $router->get('locked', [
+        'as' => 'locked',
+        'uses' => 'BatchController@locked',
+    ]);
+
     // Edit Batch
     $router->get('edit', [
         'as' => 'edit',
