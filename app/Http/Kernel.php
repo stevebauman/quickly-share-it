@@ -1,4 +1,6 @@
-<?php namespace App\Http;
+<?php
+
+namespace App\Http;
 
 use Orchestra\Foundation\Http\Kernel as HttpKernel;
 
@@ -30,5 +32,6 @@ class Kernel extends HttpKernel
         'can' => \Orchestra\Foundation\Http\Middleware\Can::class,
         'guest' => Middleware\RedirectIfAuthenticated::class,
         'manage' => \Orchestra\Foundation\Http\Middleware\CanManage::class,
+        'batch.locked' => \App\Http\Middleware\BatchLockedMiddleware::class,
     ];
 }

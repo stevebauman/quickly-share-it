@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Batch;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 
 class BatchLockedMiddleware
 {
@@ -33,13 +33,13 @@ class BatchLockedMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $uuid = $request->route('uuid');
+        $uuid = $request->route('batch_uuid');
 
         if($uuid) {
             $batch = $this->batch->locate($uuid);
 
             if($batch->locked) {
-                return redirect()->route('batch.locked', [$batch->uuid]);
+                return redirect()->route('batch.gate', [$batch->uuid]);
             }
         }
 

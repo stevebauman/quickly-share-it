@@ -47,6 +47,10 @@ class LockBatch extends Job implements SelfHandling
                 $this->batch->password = bcrypt($this->request->input('password'));
             }
 
+            if($this->request->has('password_required_view')) {
+                $this->batch->password_required = true;
+            }
+
             return $this->batch->save();
         }
     }

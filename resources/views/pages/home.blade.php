@@ -5,9 +5,12 @@
     <div class="jumbotron">
 
         <div class="container">
-            <h2>
+            <h2 class="hidden-xs">
                 Upload and Share Files, Effortlessly.
             </h2>
+            <h3 class="visible-xs">
+                Upload and Share Files, Effortlessly.
+            </h3>
             <p>
                 Anonymous, no sign up, and completely free.
             </p>

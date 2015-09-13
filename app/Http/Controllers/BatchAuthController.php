@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Hashing\Hasher;
+use App\Http\Requests\BatchUnlockRequest;
 use App\Models\Batch;
 
 class BatchAuthController
@@ -12,13 +14,20 @@ class BatchAuthController
     protected $batch;
 
     /**
+     * @var Hasher
+     */
+    protected $hasher;
+
+    /**
      * Constructor.
      *
-     * @param Batch $batch
+     * @param Batch  $batch
+     * @param Hasher $hasher
      */
-    public function __construct(Batch $batch)
+    public function __construct(Batch $batch, Hasher $hasher)
     {
         $this->batch = $batch;
+        $this->hasher = $hasher;
     }
 
     /**
@@ -35,8 +44,28 @@ class BatchAuthController
         return view('pages.batch.gate.index', compact('batch'));
     }
 
-    public function unlock($uuid)
+    /**
+     * Unlocks the batch and stores the batch ID
+     * in the current session to allow a user
+     * access.
+     *
+     * @param BatchUnlockRequest $request
+     * @param string             $uuid
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unlock(BatchUnlockRequest $request, $uuid)
     {
-        
+        $batch = $this->batch->locate($uuid);
+
+        if($batch->unlock($request->input('password'))) {
+
+
+
+        } else {
+            return redirect()->back()->withErrors([
+                'password' => 'Incorrect password. Try again!',
+            ]);
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Database\Eloquent\Model;
 
 class Batch extends Model
@@ -40,6 +41,21 @@ class Batch extends Model
             ->with(['files'])
             ->where(compact('uuid'))
             ->firstOrFail();
+    }
+
+    /**
+     * Unlocks a batch by checking the specified
+     * password against the batch password.
+     *
+     * @param $password
+     *
+     * @return bool
+     */
+    public function unlock($password)
+    {
+        $hasher = new BcryptHasher();
+
+        return $hasher->check($password, $this->password);
     }
 
     /**
