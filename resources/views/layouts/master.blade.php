@@ -39,7 +39,7 @@
 
 
                     </button>
-                    <a class="navbar-brand" href="#">{{ env('APP_TITLE') }}</a>
+                    <a class="navbar-brand" href="/">{{ env('APP_TITLE') }}</a>
 
                 </div>
 
