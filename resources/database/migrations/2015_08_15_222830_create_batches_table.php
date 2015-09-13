@@ -16,7 +16,8 @@ class CreateBatchesTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->boolean('locked');
+            $table->boolean('locked')->default(false);
+            $table->boolean('password_required')->default(false);
             $table->string('session_id');
             $table->string('password')->nullable();
             $table->integer('lifetime');
