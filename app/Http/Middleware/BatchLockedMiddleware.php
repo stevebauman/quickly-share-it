@@ -38,7 +38,7 @@ class BatchLockedMiddleware
         if($uuid) {
             $batch = $this->batch->locate($uuid);
 
-            if($batch->locked) {
+            if($batch->locked && ! $request->session()->has($uuid)) {
                 return redirect()->route('batch.gate', [$batch->uuid]);
             }
         }

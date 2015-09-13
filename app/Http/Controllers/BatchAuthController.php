@@ -58,10 +58,10 @@ class BatchAuthController
     {
         $batch = $this->batch->locate($uuid);
 
-        if($batch->unlock($request->input('password'))) {
+        if($batch->unlock($request)) {
+            flash()->success('Success!', 'Successfully unlocked folder.');
 
-
-
+            return redirect()->route('batch.show', [$batch->uuid]);
         } else {
             return redirect()->back()->withErrors([
                 'password' => 'Incorrect password. Try again!',

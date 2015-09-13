@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Requests\BatchUnlockRequest;
 use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,15 +48,23 @@ class Batch extends Model
      * Unlocks a batch by checking the specified
      * password against the batch password.
      *
-     * @param $password
+     * @param BatchUnlockRequest $request
      *
      * @return bool
      */
-    public function unlock($password)
+    public function unlock(BatchUnlockRequest $request)
     {
         $hasher = new BcryptHasher();
 
-        return $hasher->check($password, $this->password);
+        if($hasher->check($request->input('password'), $this->password)) {
+            // Store the UUID in the users session so they can have
+            // access to it for as long as the session exists
+            $request->session()->put($this->uuid, $this->uuid);
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
