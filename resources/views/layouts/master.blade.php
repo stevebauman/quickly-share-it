@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html lang="en">
 
     <head>
@@ -22,7 +24,7 @@
 
     <body>
 
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <header class="navbar navbar-default navbar-static-top" id="top" role="banner">
 
             <div class="container">
 
@@ -51,14 +53,18 @@
 
             </div>
 
-        </nav>
+        </header>
 
 
-        <div class="container">
+        <section class="container main">
 
             @yield('content')
 
-        </div>
+        </section>
+
+        <footer>
+
+        </footer>
 
     </body>
 
