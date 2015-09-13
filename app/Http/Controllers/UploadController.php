@@ -42,7 +42,7 @@ class UploadController extends Controller
         if($file instanceof UploadedFile) {
 
             // Validate file name length
-            if(strlen($file->getClientOriginalName()) > 40) {
+            if(strlen($file->getClientOriginalName()) > 70) {
                 abort(422, 'File name is too large');
             }
 
