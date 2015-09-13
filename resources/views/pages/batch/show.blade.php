@@ -37,11 +37,22 @@
                 </a>
             </div>
 
+            <div class="btn-group pull-right" role="group">
+                <a href="{{ route('batch.show', [$batch->uuid, 'view' => 'list']) }}" class="btn btn-default {{ (Input::get('view') === 'list' ? 'active' : null) }}">
+                    <i class="fa fa-list"></i>
+                </a>
+                <a href="{{ route('batch.show', [$batch->uuid, 'view' => 'tabs']) }}" class="btn btn-default {{ (Input::get('view') === 'tabs' ? 'active' : null) }}">
+                    <i class="fa fa-th-large"></i>
+                </a>
+            </div>
+
         </div>
 
     </div>
 
     <div class="row">
+
+        <p></p>
 
         <div class="col-md-12">
 
@@ -49,40 +60,15 @@
 
             @if($batch->files->count() > 0)
 
-                @foreach($batch->files as $file)
+                @if(Input::get('view') === 'tabs')
 
-                    <div class="col-md-3">
+                    @include('pages.batch.files._tabs')
 
-                        <div class="panel panel-default text-center">
+                @else
 
-                            <div class="panel-heading">
-                                <a href="{{ route('batch.files.show', [$batch->uuid, $file->uuid]) }}">{{ $file->name }}</a>
-                            </div>
+                    @include('pages.batch.files._list')
 
-                            <div class="panel-body">
-
-                                <span class="pull-left">
-                                    <span class="fa-5x">
-                                        {!! $file->getIcon() !!}
-                                    </span>
-                                </span>
-
-                                <span class="pull-right">
-                                    <p>
-                                        <small class="text-muted">{{ $file->created_at }}</small>
-                                    </p>
-                                    <p>
-                                        {{ $file->getTextualFileSize() }}
-                                    </p>
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                @endforeach
+                @endif
 
             @else
 
