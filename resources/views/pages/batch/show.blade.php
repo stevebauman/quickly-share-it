@@ -9,6 +9,8 @@
         @include('pages.batch.partials.lock')
     @endunless
 
+    <div class="clearfix"></div>
+
     <h2>Current Files:</h2>
 
     <hr>
