@@ -105,7 +105,9 @@ class BatchController extends Controller
      */
     public function edit($uuid)
     {
-        //
+        $batch = $this->batch->locate($uuid);
+
+        return view('pages.batch.edit', compact('batch'));
     }
 
     /**
@@ -118,7 +120,21 @@ class BatchController extends Controller
      */
     public function update(BatchRequest $request, $uuid)
     {
-        //
+        $batch = $this->batch->locate($uuid);
+
+        $batch->name = $request->input('name', $batch->name);
+        $batch->description = $request->input('description', $batch->description);
+        $batch->lifetime = $request->input('lifetime', $batch->lifetime);
+
+        if($batch->save()) {
+            flash()->success('Success!', 'Successfully updated folder.');
+
+            return redirect()->route('batch.show', [$batch->uuid]);
+        } else {
+            flash()->error('Error!', 'There was an error updating this folder. Please try again.');
+
+            return redirect()->route('batch.edit', [$batch->uuui]);
+        }
     }
 
     /**

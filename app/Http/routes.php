@@ -55,6 +55,12 @@ $router->group(['prefix' => '{batch_uuid}', 'as' => 'batch.'], function($router)
             'uses' => 'BatchController@edit',
         ]);
 
+        // Update Batch
+        $router->patch('update', [
+            'as' => 'update',
+            'uses' => 'BatchController@update'
+        ]);
+
         // Download all files in a batch
         $router->get('download', [
             'as' => 'download',
